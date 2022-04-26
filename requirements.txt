@@ -13,7 +13,7 @@ ipython==8.2.0
 jedi==0.18.1
 Markdown==3.3.6
 matplotlib-inline==0.1.3
-mysqlclient @ file:///opt/concourse/worker/volumes/live/3e2c08bc-c6d4-44b9-6985-8c1059f99ec2/volume/mysqlclient_1609786255460/work
+mysqlclient==2.1.0
 parso==0.8.3
 pexpect==4.8.0
 pickleshare==0.7.5
