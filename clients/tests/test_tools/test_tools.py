@@ -16,6 +16,7 @@ def test_loader(test_root: str):
     """
         테스트 돌릴 때 사용하는 데코래이터 함수
         TODO: 구현을 위한 테스팅 추가 설계 필요
+        상황에 따라 구현을 하지 않을 수도 있음
     """
     def functional(func: function):
         def wrapper(*args, **kwargs):

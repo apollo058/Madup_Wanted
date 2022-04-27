@@ -10,7 +10,10 @@
                 "address_code": "14534",
                 "address_detail": "서울시 남구"
             },
-            "answer": null
+            "answer": {
+                "code": 201,
+                "client-count": 1
+            }
         },
         {
             "test-topic": "클라이언트 갖고오기",
