@@ -1,12 +1,13 @@
 from tkinter.tix import InputOnly
-from django.test import TestCase, Client
 from clients.models import Client
 from amounts.models import Amount
 import csv
+from rest_framework.test import APITestCase
+from typing import List
 
 from typing import Dict
 
-class TestAmmountUnittest(TestCase):
+class TestAmmountUnittest(APITestCase):
     """
         작성자: 하정현
         Summary: Account CRUD Test
@@ -15,36 +16,26 @@ class TestAmmountUnittest(TestCase):
     """
 
     INPUTS_ROOT = "amounts/tests/inputs"    # 테스트 할 때 사용되는 케이스들
+    cid_list: List[str]
 
-    """
-    def setUp(self):
-        # CSV 데이터 로드
-        with open(f'{self.INPUTS_ROOT}/Madup_Wanted_Data_set.csv', 'rt') as f:
-            reader = csv.reader(f)
+    def setUp(self) -> None:
+        """
+            테스트에 사용될 클라이언트 3개 생성
+        """
+        self.cid_list = [] # 초기화
+        for i in range(3):
+            name = f"client-{i}"
+            res = self.client.post(f"/api/clients", format="json", data={
+                "name"      : name,
+                "manager"   : "manager1",
+                "contact"   : "010-1111-1111",
+                "address_code"  : "13403",
+                "address_detail": "Unknown Address"
+            })
 
-            i = 0
-            for advertiser, uid,        \
-                media,      data,       \
-                cost,       impression, \
-                click,      conversion, \
-                cv          in reader:
+            # id 저장
+            self.cid_list.append(res.json()['id'])
 
-                if cv == 'cv':
-                    continue
-
-                # TODO: 유저 생성 및 Amount 생성
-                self.client.post(f"/api/clients", format="json", data={
-                    "id": advertiser,
-                    "name": f"user-{advertiser}",
-                    "manager": f"compnay-{advertiser}",
-                    "contact": "010-1111-1111",
-                    "address_code": "13403",
-                    "address_detail": "Unknown Address"
-                })
-
-                # TODO: AD LOAD
-                self.client.post(f"/api/amounts")
-    """
                 
     def tearDown(self) -> None:
         # TODO 모든 데이터 삭제
@@ -55,5 +46,14 @@ class TestAmmountUnittest(TestCase):
             # 레코드 없는 경우 발생
             pass
     
-    def test_process(self):
+    def test_create(self):
+        pass
+
+    def test_read(self):
+        pass
+
+    def test_update(self):
+        pass
+
+    def test_delete(self):
         pass
