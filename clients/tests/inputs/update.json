@@ -1,0 +1,27 @@
+{
+    "case": [
+        {
+            "test-topic": "유저 생성",
+            "command": "create",
+            "data": {
+                "name": "user1",
+                "manager": "naver",
+                "contact": "010-1111-1234",
+                "address_code": "14534",
+                "address_detail": "서울시 남구"
+            },
+            "answer": null
+        },
+        {
+            "test-topic": "이름 수정",
+            "command": "update",
+            "data": {
+                "id": "1",
+                "name": "new_user"
+            },
+            "answer": {
+                "code": 200
+            }
+        }
+    ]
+}
