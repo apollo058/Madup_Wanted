@@ -50,7 +50,7 @@ class AmountsListView(APIView):
                 CVR = Coalesce(Sum('conversion') * 100 / Sum('click'),0),
                 CPA = Coalesce(Sum('cost') * 100 / Sum('conversion'),0)
                 )
-            #eg.[{'media': 'naver', 'CTR': 0, 'ROAS': 1449, 'CPC': 29750, 'CVR': 12, 'CPA': 238000}]
+           
         else:
             Response(status=status.HTTP_400_BAD_REQUEST)
             
@@ -64,6 +64,5 @@ class AmountsListView(APIView):
                 'cvr' : i['CVR'],
                 'cpa' : i['CPA']
             }
-            print()
             return Response(result)
         else: return Response(status=status.HTTP_204_NO_CONTENT)
