@@ -1,0 +1,51 @@
+{
+    "case": [
+        {
+            "test-topic": "광고 생성",
+            "command": "create",
+            "data": {
+                "advertiser": 0,
+                "uid": "ad_cmp-a001-04-000000003723477",
+                "media": "naver",
+                "date": "2021.12.1",
+                "cost": 20000,
+                "impression": 210,
+                "click": 54,
+                "conversion": 8,
+                "cv": 462800
+            },
+            "answer": {
+                "code": 201,
+                "amount-count": 1
+            }
+        },
+        {
+            "test-topic": "광고 수정",
+            "command": "update",
+            "data": {
+                "advertiser_idx": 1,
+                "media": "facebook",
+                "cost": 300,
+                "click": 400,
+                "cv": 10000
+            },
+            "answer": {
+                "code": 200
+            }
+        },
+        {
+            "test-topic": "존재하지 않는 광고를 수정할 경우",
+            "command": "update",
+            "data": {
+                "advertiser_idx": 0,
+                "media": "facebook",
+                "cost": 300,
+                "click": 400,
+                "cv": 10000
+            },
+            "answer": {
+                "code": 404
+            }
+        }
+    ]
+}

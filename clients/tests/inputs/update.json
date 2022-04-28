@@ -1,0 +1,40 @@
+{
+    "case": [
+        {
+            "test-topic": "유저 생성",
+            "command": "create",
+            "data": {
+                "name": "user1",
+                "manager": "naver",
+                "contact": "010-1111-1234",
+                "address_code": "14534",
+                "address_detail": "서울시 남구"
+            },
+            "answer": {
+                "code": 201,
+                "client-count": 1
+            }
+        },
+        {
+            "test-topic": "이름 수정",
+            "command": "update",
+            "data": {
+                "name": "new_user"
+            },
+            "answer": {
+                "code": 200
+            }
+        },
+        {
+            "test-topic": "존재하지 않는 유저의 데이터를 수정할 경우",
+            "command": "update",
+            "data": {
+                "id": 999999999,
+                "name": "new_user"
+            },
+            "answer": {
+                "code": 404
+            }
+        }
+    ]
+}

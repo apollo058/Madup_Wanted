@@ -1,0 +1,61 @@
+{
+    "case": [
+        {
+            "test-topic": "uid 빠져있음",
+            "command": "read",
+            "data": {
+                "start_date": "2021.1.1",
+                "end_date": "2022.1.1"
+            },
+            "answer": {
+                "code": 400
+            }
+        },
+        {
+            "test-topic": "start_date 빠져있음",
+            "command": "read",
+            "data": {
+                "uid": "ad_cmp-a001-04-000000003723479",
+                "end_date": "2022.1.1"
+            },
+            "answer": {
+                "code": 400
+            }
+        },
+        {
+            "test-topic": "start_date 빠져있음",
+            "command": "read",
+            "data": {
+                "uid": "ad_cmp-a001-04-000000003723479",
+                "start_date": "2021.1.1"
+            },
+            "answer": {
+                "code": 400
+            }
+        },
+        {
+            "test-topic": "uid 정상적인 검색",
+            "command": "read",
+            "data": {
+                "uid": "ad_cmp-a001-04-000000003723477",
+                "start_date": "2021.12.3",
+                "end_date": "2022.12.8"
+            },
+            "answer": {
+                "code": 200
+            }
+        },
+        {
+            "test-topic": "uid 정상적인 검색",
+            "command": "read",
+            "data": {
+                "uid": "ad_23849546400840585",
+                "start_date": "2021.12.12",
+                "end_date": "2022.12.20"
+            },
+            "answer": {
+                "code": 200
+            }
+        }
+    ]
+}

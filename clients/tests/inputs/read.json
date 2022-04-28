@@ -1,0 +1,40 @@
+{
+    "case": [
+        {
+            "test-topic": "유저 생성",
+            "command": "create",
+            "data": {
+                "name": "user1",
+                "manager": "naver",
+                "contact": "010-1111-1234",
+                "address_code": "14534",
+                "address_detail": "서울시 남구"
+            },
+            "answer": {
+                "code": 201,
+                "client-count": 1
+            }
+        },
+        {
+            "test-topic": "클라이언트 갖고오기",
+            "command": "read",
+            "data": {},
+            "answer": {
+                "code": 200,
+                "name": "user1",
+                "manager": "naver",
+                "contact": "010-1111-1234",
+                "address_code": "14534",
+                "address_detail": "서울시 남구"
+            }
+        },
+        {
+            "test-topic": "없는 아이디의 클라이언트를 요청할 경우",
+            "command": "read",
+            "data": {"id": 9999999999},
+            "answer": {
+                "code": 404
+            }
+        }
+    ]
+}

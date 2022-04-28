@@ -1,0 +1,94 @@
+{
+    "case": [
+        {
+            "test-topic": "정상적인 Create",
+            "command": "create",
+            "data": {
+                "name": "user1",
+                "manager": "naver",
+                "contact": "010-1111-1234",
+                "address_code": "14534",
+                "address_detail": "서울시 남구"
+            },
+            "answer": {
+                "code": 201,
+                "client-count": 1
+            }
+        },
+        {
+            "test-topic": "Name이 없는 요청",
+            "command": "Name",
+            "data": {
+                "name": null,
+                "manager": "naver",
+                "contact": "010-1111-1234",
+                "address_code": "14534",
+                "address_detail": "서울시 남구"
+            },
+            "answer": {
+                "code": 400,
+                "client-count": 1
+            }
+        },
+        {
+            "test-topic": "Manager가 없는 요청",
+            "command": "create",
+            "data": {
+                "name": "user1",
+                "manager": null,
+                "contact": "010-1111-1234",
+                "address_code": "14534",
+                "address_detail": "서울시 남구"
+            },
+            "answer": {
+                "code": 400,
+                "client-count": 1
+            }
+        },
+        {
+            "test-topic": "Contact가 없는 요청",
+            "command": "create",
+            "data": {
+                "name": "user1",
+                "manager": "naver",
+                "contact": null,
+                "address_code": "14534",
+                "address_detail": "서울시 남구"
+            },
+            "answer": {
+                "code": 400,
+                "client-count": 1
+            }
+        },
+        {
+            "test-topic": "Address Code가 없는 요청",
+            "command": "create",
+            "data": {
+                "name": "user1",
+                "manager": "naver",
+                "contact": "010-1111-1234",
+                "address_code": null,
+                "address_detail": "서울시 남구"
+            },
+            "answer": {
+                "code": 400,
+                "client-count": 1
+            }
+        },
+        {
+            "test-topic": "Address Detail 이 없는 요청",
+            "command": "create",
+            "data": {
+                "name": "user1",
+                "manager": "naver",
+                "contact": "010-1111-1234",
+                "address_code": "14534",
+                "address_detail": null
+            },
+            "answer": {
+                "code": 400,
+                "client-count": 1
+            }
+        }
+    ]
+}

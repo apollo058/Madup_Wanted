@@ -1,0 +1,38 @@
+{
+    "case": [
+        {
+            "test-topic": "유저 생성",
+            "command": "create",
+            "data": {
+                "name": "user1",
+                "manager": "naver",
+                "contact": "010-1111-1234",
+                "address_code": "14534",
+                "address_detail": "서울시 남구"
+            },
+            "answer": {
+                "code": 201,
+                "client-count": 1
+            }
+        },
+        {
+            "test-topic": "유저 삭제",
+            "command": "delete",
+            "data": {},
+            "answer": {
+                "code": 200
+            }
+        },
+        {
+            "test-topic": "애초에 없는 유저 삭제시도",
+            "command": "delete",
+            "data": {
+                "id": 99999999
+            },
+            "answer": {
+                "code": 404
+            }
+        }
+
+    ]
+}
