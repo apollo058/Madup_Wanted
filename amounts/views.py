@@ -20,12 +20,8 @@ def Date(str):
 class AmountsListView(APIView):
     '''
     작성자 : 남기윤
-    (POST) /Amounts
     (GET) /Amounts
     '''
-
-    def post(self, request):
-        return Response(status=status.HTTP_400_BAD_REQUEST)
 
     def get(self,request):
         '''
