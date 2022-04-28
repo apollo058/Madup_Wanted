@@ -1,0 +1,41 @@
+version: "3"
+services:
+  madup_db:
+    image: mysql
+    container_name: madup_db
+    restart: always
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --default-authentication-plugin=mysql_native_password
+    # volumes: # 에러
+    #   - ./db/conf.d:/etc/mysql/conf.d
+    #   - ./db/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "qwe123!@#"
+      MYSQL_DATABASE: "madup"
+      MYSQL_USER: "tony"
+      MYSQL_PASSWORD: "qwe123!@#"
+    ports:
+      - 3306:3306
+
+  madup_backend:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: madup_backend
+    ports:
+      - 8000:8000
+    environment:
+      - DJANGO_DEBUG=TRUE
+      - DJANGO_DB_NAME=madup
+    depends_on:
+      - madup_db
+    command:
+      - bash
+      - -c
+      - |
+        python manage.py runserver 0.0.0.0:8000
+    # volumes:
+    #   - ./:/app/
+    restart: always
