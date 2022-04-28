@@ -51,7 +51,9 @@ class AmountsListView(APIView):
                 CPA = Coalesce(Sum('cost') * 100 / Sum('conversion'),0)
                 )
             #eg.[{'media': 'naver', 'CTR': 0, 'ROAS': 1449, 'CPC': 29750, 'CVR': 12, 'CPA': 238000}]
-
+        else:
+            Response(status=status.HTTP_400_BAD_REQUEST)
+            
         amount_data = list(amount_data)
         result = {}
         for i in amount_data:
