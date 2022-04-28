@@ -25,13 +25,12 @@ class TestClientsUnittest(APITestCase):
             pass
 
     """ Test Functions """
-    def mod_create(self, case: Dict[str, object], test: bool = True) -> int:
+    def mod_create(self, case: Dict[str, object]) -> int:
         """
             CREATE 테스트 함수
 
             params
                 case: 테스트 케이스
-                test: 테스트 여부 (False일 경우 수행 안함)
 
             return: id 출력
         """
@@ -41,21 +40,19 @@ class TestClientsUnittest(APITestCase):
         # api request
         res = self.client.post(self.URI, data=case_data, format="json")
 
-        # 테스트 목적일 경우 assert까지 확인한다.
-        if test:
-            # Status Code 테스트
-            self.assertEqual(
-                res.status_code, case_answer['code'],
-                msg = print_err_msg(case_idx, case_answer['code'], res.status_code)
-            )
+        # Status Code 테스트
+        self.assertEqual(
+            res.status_code, case_answer['code'],
+            msg = print_err_msg(case_idx, case_answer['code'], res.status_code)
+        )
             
-            # Client가 실제로 생성되어있는 지 테스트
-            # 인원 수로 계산
-            cnt = Client.objects.count()
-            self.assertEqual(
-                cnt, case_answer['client-count'],
-                msg = print_err_msg(case_idx, case_answer['client-count'], cnt)
-            )
+        # Client가 실제로 생성되어있는 지 테스트
+        # 인원 수로 계산
+        cnt = Client.objects.count()
+        self.assertEqual(
+            cnt, case_answer['client-count'],
+            msg = print_err_msg(case_idx, case_answer['client-count'], cnt)
+        )
 
         if res.status_code == 201:
             """
@@ -64,7 +61,7 @@ class TestClientsUnittest(APITestCase):
             """
             return res.json()['id']
 
-    def mod_read(self, case: Dict[str, object], id: int, test: bool = True):
+    def mod_read(self, case: Dict[str, object], id: str):
         """
             READ 테스트 함수:
 
@@ -78,27 +75,26 @@ class TestClientsUnittest(APITestCase):
         res = self.client.get(f"{self.URI}/{id}", format="json")
 
         # 테스트가 필요한 경우
-        if test:
-            # Status Code Test
-            self.assertEqual(
-                res.status_code, case_answer['code'],
-                msg = print_err_msg(case_topic, case_answer['code'], res.status_code))
+        # Status Code Test
+        self.assertEqual(
+            res.status_code, case_answer['code'],
+            msg = print_err_msg(case_topic, case_answer['code'], res.status_code))
 
-            if res.status_code == 200:
-                # 정상적으로 읽기에 성공한 경우 Data 검토
-                res_data = res.json()
-                for k, v in case_answer.items():
-                    """
-                        name, manager 등, response의 Data가 제대로
-                        맞는 지 검토
-                    """
-                    if k == "code":
-                        # status code는 이미 확인함
-                        continue
-                    self.assertEqual(res_data[k], v, 
-                        msg = print_err_msg(f"{case_topic} -> Key: {k}", case_answer[k], res_data[k]))
+        if res.status_code == 200:
+            # 정상적으로 읽기에 성공한 경우 Data 검토
+            res_data = res.json()
+            for k, v in case_answer.items():
+                """
+                    name, manager 등, response의 Data가 제대로
+                    맞는 지 검토
+                """
+                if k == "code":
+                    # status code는 이미 확인함
+                    continue
+                self.assertEqual(res_data[k], v, 
+                    msg = print_err_msg(f"{case_topic} -> Key: {k}", case_answer[k], res_data[k]))
 
-    def mod_update(self, case: Dict[str, object], id: int, test: bool = True):
+    def mod_update(self, case: Dict[str, object], id: int):
         """
             UPDATE 테스트 함수:
             
@@ -122,18 +118,17 @@ class TestClientsUnittest(APITestCase):
         """
         res = self.client.patch(f"{self.URI}/{id}", data=req_data, format="json")
 
-        if test:
-            self.assertEqual(
-                res.status_code, case_answer['code'],
-                msg = print_err_msg(case_topic, case_answer['code'], res.status_code))
-            if res.status_code == 200:
-                # 수정된 데이터 매칭
-                for k, v in req_data.items():
-                    self.assertEqual(res.data[k], v, 
-                        msg = print_err_msg(f"{case_topic} -> Key: {k}", req_data[k], res.data[k]))
+        self.assertEqual(
+            res.status_code, case_answer['code'],
+            msg = print_err_msg(case_topic, case_answer['code'], res.status_code))
+        if res.status_code == 200:
+            # 수정된 데이터 매칭
+            for k, v in req_data.items():
+                self.assertEqual(res.data[k], v, 
+                    msg = print_err_msg(f"{case_topic} -> Key: {k}", req_data[k], res.data[k]))
             
 
-    def mod_delete(self, case: Dict[str, object], id: int, test: bool = True):
+    def mod_delete(self, case: Dict[str, object], id: int):
         """
             DELETE 테스트 함수:
             
@@ -153,16 +148,15 @@ class TestClientsUnittest(APITestCase):
         """
         res = self.client.delete(f"{self.URI}/{id}")
 
-        if test:
-            self.assertEqual(
-                res.status_code, case_answer['code'],
-                msg = print_err_msg(case_topic, case_answer['code'], res.status_code))
+        self.assertEqual(
+            res.status_code, case_answer['code'],
+            msg = print_err_msg(case_topic, case_answer['code'], res.status_code))
             
-            if res.status_code == 200:
-                # 검색해서 더이상 검색이 안 되는 지 확인
-                res = self.client.get(f"{self.URI}/{id}", format="json")
-                self.assertEqual(404, res.status_code, 
-                    msg=print_err_msg(f"{case_topic}: not deleted", 404, res.status_code))
+        if res.status_code == 200:
+            # 검색해서 더이상 검색이 안 되는 지 확인
+            res = self.client.get(f"{self.URI}/{id}", format="json")
+            self.assertEqual(404, res.status_code, 
+                msg=print_err_msg(f"{case_topic}: not deleted", 404, res.status_code))
         
     
     """ Create Functions """
@@ -186,7 +180,7 @@ class TestClientsUnittest(APITestCase):
             # 테스트 케이스가 들어있는 Json 파일 불러오기
             for case in json.load(f)['case']:
                 if case['command'] == 'create':
-                    created_id = self.mod_create(case, test=False)
+                    created_id = self.mod_create(case)
                 elif case['command'] == "read":
                     if 'id' not in case['data']:
                         self.mod_read(case, id=created_id)
@@ -202,7 +196,7 @@ class TestClientsUnittest(APITestCase):
             # 테스트 케이스가 들어있는 Json 파일 불러오기
             for case in json.load(f)['case']:
                 if case['command'] == 'create':
-                    created_id = self.mod_create(case, test=False)
+                    created_id = self.mod_create(case)
                 elif case['command'] == "update":
                     if 'id' not in case['data']:
                         self.mod_update(case, id=created_id)
@@ -218,7 +212,7 @@ class TestClientsUnittest(APITestCase):
             # 테스트 케이스가 들어있는 Json 파일 불러오기
             for case in json.load(f)['case']:
                 if case['command'] == 'create':
-                    self.mod_create(case, test=False)
+                    self.mod_create(case)
                 elif case['command'] == "delete":
                     if 'id' not in case['data']:
                         self.mod_delete(case, id=created_id)
