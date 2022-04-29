@@ -10,15 +10,3 @@ def print_err_msg(idx, answer, output) -> str:
         Answer: {answer},
         Wrong Output: {output},
     """
-
-
-def test_loader(test_root: str):
-    """
-        테스트 돌릴 때 사용하는 데코래이터 함수
-        TODO: 구현을 위한 테스팅 추가 설계 필요
-    """
-    def functional(func: function):
-        def wrapper(*args, **kwargs):
-            func(*args)
-        return wrapper
-    return functional

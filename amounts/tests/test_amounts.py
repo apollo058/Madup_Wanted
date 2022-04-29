@@ -12,13 +12,13 @@ class TestAmmountUnittest(APITestCase):
         작성자: 하정현
         Summary: Amount CRUD Test
 
-        TODO: 아직 테스트 X
     """
 
     INPUTS_ROOT = "amounts/tests/inputs"    # 테스트 할 때 사용되는 케이스들
     URI         = "/api/amounts"            # uri
     CLIENT_URI  = "/api/clients"
     cid_list: List[str]
+    advertises: List[Dict[str, object]]    # read 테스트에 사용될 advertise data
 
     def setUp(self) -> None:
         """
@@ -37,6 +37,37 @@ class TestAmmountUnittest(APITestCase):
 
             # id 저장
             self.cid_list.append(res.json()['id'])
+
+        # 테스트진행을 위해 데이터를 채운다
+        with open(f"{self.INPUTS_ROOT}/read.csv") as f:
+            reader = csv.reader(f)
+            for idx,    uid,    \
+                media,  date,   \
+                cost,   imporession,    \
+                click,  conversion,     \
+                cv      in reader:
+
+                # 제목 부분 제외
+                if uid == "uid":
+                    continue
+
+                # advertise 정보 추가
+                c: Client = Client.objects.filter(id=self.cid_list[int(idx)])[0]
+                input_data =  {
+                    "advertiser"    : c,
+                    "uid"           : uid,
+                    "media"         : media,
+                    "date"          : date,
+                    "cost"          : int(cost),
+                    "impression"    : int(imporession),
+                    "click"         : int(click),
+                    "conversion"    : int(conversion),
+                    "cv"            : int(cv)
+                }
+                Amount.objects.create(**input_data)
+                DATE_FORMAT = '%Y-%m-%d'
+                input_data['date'] = datetime.datetime.strptime(input_data['date'], DATE_FORMAT)
+                self.advertises.append(input_data)
             
     def tearDown(self) -> None:
         try:
@@ -146,41 +177,9 @@ class TestAmmountUnittest(APITestCase):
             TEST: READ
             TEST: CTR/ROADS/CPC/CVR/CPA 읽기 테스트
         """
-        advertises = []
-
-        # 테스트진행을 위해 데이터를 채운다
-        with open(f"{self.INPUTS_ROOT}/read.csv") as f:
-            reader = csv.reader(f)
-            for idx,    uid,    \
-                media,  date,   \
-                cost,   imporession,    \
-                click,  conversion,     \
-                cv      in reader:
-
-                # 제목 부분 제외
-                if uid == "uid":
-                    continue
-
-                # advertise 정보 추가
-                c: Client = Client.objects.filter(id=self.cid_list[int(idx)])[0]
-                input_data =  {
-                    "advertiser"    : c,
-                    "uid"           : uid,
-                    "media"         : media,
-                    "date"          : date,
-                    "cost"          : int(cost),
-                    "impression"    : int(imporession),
-                    "click"         : int(click),
-                    "conversion"    : int(conversion),
-                    "cv"            : int(cv)
-                }
-                Amount.objects.create(**input_data)
-                DATE_FORMAT = '%Y-%m-%d'
-                input_data['date'] = datetime.datetime.strptime(input_data['date'], DATE_FORMAT)
-                advertises.append(input_data)
 
         # Case 돌면서 테스트 시작
         with open(f"{self.INPUTS_ROOT}/read.json") as f:
             for case in json.load(f)['case']:
                 if case['command'] == 'read':
-                    self.mod_read(case, advertises)
+                    self.mod_read(case, self.advertises)

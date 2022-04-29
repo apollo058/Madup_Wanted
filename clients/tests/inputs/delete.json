@@ -20,7 +20,7 @@
             "command": "delete",
             "data": {},
             "answer": {
-                "code": 200
+                "code": 204
             }
         }
     ]

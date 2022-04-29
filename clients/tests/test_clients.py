@@ -200,7 +200,7 @@ class TestClientsUnittest(APITestCase):
             # 테스트 케이스가 들어있는 Json 파일 불러오기
             for case in json.load(f)['case']:
                 if case['command'] == 'create':
-                    self.mod_create(case)
+                    created_id = self.mod_create(case)
                 elif case['command'] == "delete":
                     if 'id' not in case['data']:
                         self.mod_delete(case, id=created_id)
