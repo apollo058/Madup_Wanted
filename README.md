@@ -81,7 +81,7 @@
 
 ## API info.
 
-# 광고주 정보 CRUD api
+### 광고주 정보 CRUD api
 * CREATE : 광고주의 기업명, 담당자, 연락처, 주소, 상세주소를 입력받아 저장합니다.
 ![image](https://user-images.githubusercontent.com/88444944/165883858-c67ab3af-7726-4e67-b48a-0be599c1842a.png)
 
@@ -94,7 +94,7 @@
 * DELETE : PK(id) 를 입력받아 DB에서 삭제합니다
 ![image](https://user-images.githubusercontent.com/88444944/165884140-c997ad4a-9904-45c3-bcbc-13bc466a9fbf.png)
 
-# 광고주의 매체별 CTR,ROAS,CPC,CVR,CPA 검색 api
+### 광고주의 매체별 CTR,ROAS,CPC,CVR,CPA 검색 api
 
 * 광고주의 uid와 기간(시작일,종료일)을 입력받아 조회합니다.
 ![image](https://user-images.githubusercontent.com/88444944/165884250-a8865aa7-08d8-4230-8064-279d91383a89.png)
