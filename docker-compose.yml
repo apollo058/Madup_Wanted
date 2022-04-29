@@ -10,8 +10,7 @@ services:
     depends_on:
       - madup_db
     environment:
-      - DJANGO_DEBUG=TRUE
-      - DJANGO_DB_NAME=madup
+      DJANGO_SETTINGS_MODULE: madup.settings.prod
     command: 
       - bash
       - -c
