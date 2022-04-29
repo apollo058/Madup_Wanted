@@ -102,5 +102,29 @@
 ## DB info.
 ![매드업DB설계](https://user-images.githubusercontent.com/88444944/165886236-823e45fd-9a71-47ee-a51e-9bdd1b9e323c.png)
 
+---
+
+## Docker Compose 사용법
+
+1. docker-compose.yml과 같은 경로에 `.env` 파일을 만든다.
+
+2. `.env` 파일 설정
+```
+MYSQL_NAME = "madup"
+MYSQL_HOST = "madup_db"
+MYSQL_PORT = "3306"
+MYSQL_ROOT_PASSWORD = root 패스워드
+MYSQL_DATABASE = "madup"
+MYSQL_USER = 컨테이너 DB_user name
+MYSQL_PASSWORD = 컨테이너 DB_user password
+MYSQL_LOCAL_PASSWORD = local root 패스워드
+SECRET_KEY = django secret key
+```
+를 설정하고 저장한다.
+
+3. docker-compose.yml 경로에서 `sudo docker-compose up -d`를 실행한다.
 
 
+## wait-for-it.sh의 용도
+[GitHub]('https://github.com/apollo058/wait-for-it.git')
+해당 스크립트의 용도는 `sudo docker-compose up -d` 명령어 실행시에 DB가 완전히 가동되기전 django migrate가 실행되는 것을 방지하기 위함입니다.
