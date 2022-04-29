@@ -1,10 +1,10 @@
 from django.shortcuts import get_object_or_404
 
-from rest_framework          import status
-from rest_framework.views    import APIView
+from rest_framework import status
+from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from .models      import Client
+from .models import Client
 from .serializers import ClientsSerializer
 
 class ClientsListView(APIView):
@@ -41,7 +41,7 @@ class ClientsDetailView(APIView):
 
     def patch(self, request, pk):
         data = request.data
-        client = Client.objects.get(pk=pk)
+        client = get_object_or_404(Client, pk=pk)
         serializer = ClientsSerializer(client, data, partial=True)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
@@ -49,6 +49,6 @@ class ClientsDetailView(APIView):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
-        client = Client.objects.get(pk=pk)
+        client = get_object_or_404(Client, pk=pk)
         client.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
