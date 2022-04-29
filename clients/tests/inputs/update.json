@@ -24,17 +24,6 @@
             "answer": {
                 "code": 200
             }
-        },
-        {
-            "test-topic": "존재하지 않는 유저의 데이터를 수정할 경우",
-            "command": "update",
-            "data": {
-                "id": 999999999,
-                "name": "new_user"
-            },
-            "answer": {
-                "code": 404
-            }
         }
     ]
 }

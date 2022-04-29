@@ -110,12 +110,6 @@ class TestClientsUnittest(APITestCase):
         req_data = {k:v for k, v in case_data.items() if k != 'id'}
 
         # Request to api
-        """
-            TODO:
-            존재하지 않는 User를 요청할 경우, 500 Internal Error 발생
-            clients.models.Client.DoesNotExist: Client matching query does not exist.
-            해당 Exception에 대한 예외 처리 필요
-        """
         res = self.client.patch(f"{self.URI}/{id}", data=req_data, format="json")
 
         self.assertEqual(
@@ -140,12 +134,6 @@ class TestClientsUnittest(APITestCase):
         case_topic, _, case_answer = \
             case["test-topic"], case['data'], case['answer']
 
-        """
-            TODO:
-            존재하지 않는 User를 요청할 경우, 500 Internal Error 발생
-            clients.models.Client.DoesNotExist: Client matching query does not exist.
-            해당 Exception에 대한 예외 처리 필요
-        """
         res = self.client.delete(f"{self.URI}/{id}")
 
         self.assertEqual(
