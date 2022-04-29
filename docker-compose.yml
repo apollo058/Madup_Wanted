@@ -21,6 +21,7 @@ services:
     volumes:
       - ./:/app/
     restart: always
+    entrypoint: ./wait-for-it.sh madup_db:3306 --
 
   madup_db:
     image: mysql:5.7.16
@@ -34,7 +35,10 @@ services:
       - --default-authentication-plugin=mysql_native_password
     environment:
       TZ: Asia/Seoul
-    env_file:
-      - .env
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+      MYSQL_HOST: "${MYSQL_HOST}"
     ports:
       - 3306:3306
