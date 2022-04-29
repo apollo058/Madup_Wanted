@@ -1,8 +1,5 @@
-from http.client import BAD_REQUEST
-from tracemalloc import start
-from django.db.models import Q, Count, F, Sum, Case, When ,FloatField
+from django.db.models import Q, Sum, FloatField
 from django.db.models.functions import Coalesce
-from django.shortcuts import get_object_or_404
 
 from rest_framework          import status
 from rest_framework.views    import APIView
