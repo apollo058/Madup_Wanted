@@ -1,8 +1,5 @@
-from http.client import BAD_REQUEST
-from tracemalloc import start
-from django.db.models import Q, Count, F, Sum, Case, When
+from django.db.models import Q, Sum, FloatField
 from django.db.models.functions import Coalesce
-from django.shortcuts import get_object_or_404
 
 from rest_framework          import status
 from rest_framework.views    import APIView
@@ -11,7 +8,6 @@ from rest_framework.response import Response
 from .models      import Amount
 import datetime
 
-import json
 
 def Date(str):
     return datetime.datetime.strptime(str, '%Y-%m-%d').date()
@@ -43,11 +39,11 @@ class AmountsListView(APIView):
             q &= Q(date__lte=Date(end_date))
         if  uid: 
             amount_data = Amount.objects.filter(q).values('media').annotate(
-                CTR = Coalesce(Sum('click') * 100 / Sum('impression'),0),
-                ROAS = Coalesce(Sum('cv') * 100 / Sum('cost'),0),
-                CPC = Coalesce(Sum('cost') * 100 / Sum('click'),0),
-                CVR = Coalesce(Sum('conversion') * 100 / Sum('click'),0),
-                CPA = Coalesce(Sum('cost') * 100 / Sum('conversion'),0)
+                CTR = Coalesce(Sum('click') * 100 / Sum('impression'),0,output_field=FloatField()),
+                ROAS = Coalesce(Sum('cv') * 100 / Sum('cost'),0,output_field=FloatField()),
+                CPC = Coalesce(Sum('cost') * 100 / Sum('click'),0,output_field=FloatField()),
+                CVR = Coalesce(Sum('conversion') * 100 / Sum('click'),0,output_field=FloatField()),
+                CPA = Coalesce(Sum('cost') * 100 / Sum('conversion'),0,output_field=FloatField())
                 )
            
         else:
@@ -57,11 +53,11 @@ class AmountsListView(APIView):
         result = {}
         for i in amount_data:
             result[i['media']] = {
-                'ctr' : i['CTR'],
-                'cpc' : i['CPC'],
-                'roas' : i['ROAS'],
-                'cvr' : i['CVR'],
-                'cpa' : i['CPA']
+                'ctr' : round( i['CTR'] ,2),
+                'cpc' : round( i['CPC'] ,2),
+                'roas' : round( i['ROAS'] ,2),
+                'cvr' : round( i['CVR'] ,2),
+                'cpa' : round( i['CPA'] ,2)
             }
             return Response(result)
         else: return Response(status=status.HTTP_204_NO_CONTENT)
