@@ -126,5 +126,5 @@ SECRET_KEY = django secret key
 
 
 ## wait-for-it.sh의 용도
-[GitHub]('https://github.com/apollo058/wait-for-it.git')
+![GitHub](https://github.com/apollo058/wait-for-it.git)
 해당 스크립트의 용도는 `sudo docker-compose up -d` 명령어 실행시에 DB가 완전히 가동되기전 django migrate가 실행되는 것을 방지하기 위함입니다.
