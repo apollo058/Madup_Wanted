@@ -1,7 +1,5 @@
 from django.db import models
-
 from clients.models import Client
-
 
 class Amount(models.Model):
     advertiser = models.ForeignKey(Client, on_delete=models.CASCADE)
