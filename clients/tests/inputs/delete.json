@@ -22,17 +22,6 @@
             "answer": {
                 "code": 200
             }
-        },
-        {
-            "test-topic": "애초에 없는 유저 삭제시도",
-            "command": "delete",
-            "data": {
-                "id": 99999999
-            },
-            "answer": {
-                "code": 404
-            }
         }
-
     ]
 }
