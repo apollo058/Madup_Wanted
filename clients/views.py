@@ -22,9 +22,9 @@ class ClientsListView(APIView):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
     def get(self,request):
-            client_list = Client.objects.all()
-            serailized_list= ClientsSerializer(client_list, many=True)
-            return Response(serailized_list.data, status=200)
+        client_list = Client.objects.all()
+        serailized_list= ClientsSerializer(client_list, many=True)
+        return Response(serailized_list.data, status=200)
 
 
 class ClientsDetailView(APIView):

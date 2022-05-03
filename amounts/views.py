@@ -32,20 +32,19 @@ class AmountsListView(APIView):
         q = Q()
 
         if uid:
-            q &= Q(uid=uid)
+            q &= Q(id=uid)
         if start_date:
             q &= Q(date__gte=Date(start_date))
         if end_date:
             q &= Q(date__lte=Date(end_date))
         if  uid: 
             amount_data = Amount.objects.filter(q).values('media').annotate(
-                CTR = Coalesce(Sum('click') * 100 / Sum('impression'),0,output_field=FloatField()),
-                ROAS = Coalesce(Sum('cv') * 100 / Sum('cost'),0,output_field=FloatField()),
-                CPC = Coalesce(Sum('cost') * 100 / Sum('click'),0,output_field=FloatField()),
-                CVR = Coalesce(Sum('conversion') * 100 / Sum('click'),0,output_field=FloatField()),
-                CPA = Coalesce(Sum('cost') * 100 / Sum('conversion'),0,output_field=FloatField())
+                CTR = Coalesce(Sum('click') * 100 / Sum('impression'),0,output_field=FloatField(2)),
+                ROAS = Coalesce(Sum('cv') * 100 / Sum('cost'),0,output_field=FloatField(2)),
+                CPC = Coalesce(Sum('cost') / Sum('click'),0,output_field=FloatField(2)),
+                CVR = Coalesce(Sum('conversion') * 100 / Sum('click'),0,output_field=FloatField(2)),
+                CPA = Coalesce(Sum('cost') / Sum('conversion'),0,output_field=FloatField(2))
                 )
-           
         else:
             Response(status=status.HTTP_400_BAD_REQUEST)
             
@@ -53,11 +52,11 @@ class AmountsListView(APIView):
         result = {}
         for i in amount_data:
             result[i['media']] = {
-                'ctr' : round( i['CTR'] ,2),
-                'cpc' : round( i['CPC'] ,2),
-                'roas' : round( i['ROAS'] ,2),
-                'cvr' : round( i['CVR'] ,2),
-                'cpa' : round( i['CPA'] ,2)
+                'ctr' : i['CTR'],
+                'cpc' : i['CPC'],
+                'roas' : i['ROAS'],
+                'cvr' : i['CVR'],
+                'cpa' : i['CPA']
             }
             return Response(result)
         else: return Response(status=status.HTTP_204_NO_CONTENT)
